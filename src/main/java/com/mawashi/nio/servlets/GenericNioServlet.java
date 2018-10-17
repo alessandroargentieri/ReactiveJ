@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 /**
  * @author alessandroargentieri
  *
- * Dispatcher Non-Blocking servlet which calls the endpoints defined by the programmer through the {@Action}
+ * Dispatcher Non-Blocking servlet which calls the endpoints defined by the programmer through the Action
  */
 public class GenericNioServlet extends HttpServlet {
 

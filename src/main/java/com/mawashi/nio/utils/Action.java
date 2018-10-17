@@ -7,8 +7,8 @@ import java.io.IOException;
 /**
  * @author alessandroargentieri
  *
- * Functional interface implemented by the programmer in the class which extends the abstract class {@Endpoints}
- * It represents the action to which the request, response are sent by the {@GenericNioServlet}
+ * Functional interface implemented by the programmer in the class which extends the abstract class Endpoints
+ * It represents the action to which the request, response are sent by the GenericNioServlet
  */
 @FunctionalInterface
 public interface Action {

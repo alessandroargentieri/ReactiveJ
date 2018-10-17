@@ -15,6 +15,8 @@ import java.util.logging.Logger;
  *
  * This is the principal class of the library
  * It wraps Jetty embedded server, add servlets, filters and endpoints
+ *
+ *
  */
 public class ReactiveJ {
 
@@ -35,13 +37,13 @@ public class ReactiveJ {
         return this;
     }
 
-    /** if you want to add some other custom Servlets */
+    /* if you want to add some other custom Servlets */
     public ReactiveJ addServlet(Class servletClass, String path){
         this.servletsMap.put(servletClass, path);
         return this;
     }
 
-    /** if you want to add some other custom Filters */
+    /* if you want to add some other custom Filters */
     public ReactiveJ addFilter(Class filterClass, String path, Jetty.Dispatch dispatch){
         this.filterItemList.add( new FilterItem(filterClass, path, dispatch));
         return this;
