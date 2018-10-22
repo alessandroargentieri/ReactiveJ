@@ -7,7 +7,9 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.WriteListener;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.nio.ByteBuffer;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -134,22 +136,34 @@ public class RestHandler {
     }
 
 
-    public void toJsonResponse(final HttpServletRequest request, final HttpServletResponse response, final Object resp) throws IOException {
+    protected void toJsonResponse(final HttpServletRequest request, final HttpServletResponse response, final Object resp) throws IOException {
         response.setContentType("application/json");
         nioResponse(request, response, JsonConverter.getInstance().getJsonOf(resp));
     }
-    public void toXmlResponse(final HttpServletRequest request, final HttpServletResponse response, final Object resp) throws IOException {
+    protected void toXmlResponse(final HttpServletRequest request, final HttpServletResponse response, final Object resp) throws IOException {
         response.setContentType("application/xml");
         nioResponse(request, response, XmlConverter.getInstance().getXmlOf(resp));
     }
-    public void toTextResponse(final HttpServletRequest request, final HttpServletResponse response, final Object resp) throws IOException {
+    protected void toTextResponse(final HttpServletRequest request, final HttpServletResponse response, final Object resp) throws IOException {
         response.setContentType("text/plain");
         nioResponse(request, response, resp.toString());
     }
 
-    private void nioResponse(final HttpServletRequest request, final HttpServletResponse response, final String resp) throws IOException {
+    protected void toResponse(final HttpServletRequest request, final HttpServletResponse response, final Object resp, final String mimetype) throws IOException {
+        response.setContentType(mimetype);
+        nioResponse(request, response, resp);
+    }
+
+    private byte[] serialize(Object obj) throws IOException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        ObjectOutputStream os = new ObjectOutputStream(out);
+        os.writeObject(obj);
+        return out.toByteArray();
+    }
+
+    private void nioResponse(final HttpServletRequest request, final HttpServletResponse response, final Object resp) throws IOException {
         response.addHeader("Access-Control-Allow-Origin", "*");
-        final ByteBuffer finalContent = ByteBuffer.wrap(resp.getBytes());
+        final ByteBuffer finalContent = ByteBuffer.wrap(serialize(resp));
         final AsyncContext async = request.getAsyncContext();
         final ServletOutputStream out = response.getOutputStream();
         out.setWriteListener(new WriteListener() {

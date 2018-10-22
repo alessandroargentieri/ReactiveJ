@@ -45,4 +45,8 @@ public abstract class Endpoints {
     protected void toTextResponse(final HttpServletRequest request, final HttpServletResponse response, final Object resp) throws IOException {
         handler.toTextResponse(request, response, resp);
     }
+
+    protected void toResponse(final HttpServletRequest request, final HttpServletResponse response, final Object resp, final String mimetype) throws IOException {
+        handler.toResponse(request, response, resp, mimetype);
+    }
 }
