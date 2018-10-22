@@ -63,9 +63,9 @@ In order to use ReactiveJ and create your first Non-Blocking (asynchronous and r
     
     public ToDoEndpoints(){
        setEndpoint("/create/todo", createToDo);
-       setEndpoint("/delete/todo", deleteToDo);
-       setEndpoint("/get/todo/{id}", getToDo);
-       setEndpoint("/get/todo", getAllToDos);
+       setEndpoint("/delete/todo/{id}", deleteToDo);
+       setEndpoint("/get/todo", getToDo);
+       setEndpoint("/get/todos", getAllToDos);
     }
   }
   ```
@@ -178,9 +178,9 @@ In order to use ReactiveJ and create your first Non-Blocking (asynchronous and r
     /* in the constructor we map each Action to a specific url path */
     public ToDoEndpoints(){
        setEndpoint("/create/todo", createToDo);
-       setEndpoint("/delete/todo", deleteToDo);
-       setEndpoint("/get/todo/{id}", getToDo);
-       setEndpoint("/get/todo", getAllToDos);
+       setEndpoint("/delete/todo/{id}", deleteToDo);
+       setEndpoint("/get/todo", getToDo);
+       setEndpoint("/get/todos", getAllToDos);
     }
   }
   ````
@@ -270,9 +270,9 @@ In order to use ReactiveJ and create your first Non-Blocking (asynchronous and r
     /* in the constructor we map each Action to a specific url path */
     public ToDoEndpoints(){
        setEndpoint("/create/todo", createToDo);
-       setEndpoint("/delete/todo", deleteToDo);
-       setEndpoint("/get/todo/{id}", getToDo);
-       setEndpoint("/get/todo", getAllToDos);
+       setEndpoint("/delete/todo/{id}", deleteToDo);
+       setEndpoint("/get/todo", getToDo);
+       setEndpoint("/get/todos", getAllToDos);
     }
   }
   ````
