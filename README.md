@@ -18,7 +18,7 @@ In order to use ReactiveJ and create your first Non-Blocking (asynchronous and r
   <dependency>
     <groupId>com.github.alessandroargentieri</groupId>
     <artifactId>ReactiveJ</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.3</version>
   </dependency>
   ```
   
@@ -119,6 +119,11 @@ In order to use ReactiveJ and create your first Non-Blocking (asynchronous and r
   void toTextResponse(HttpServletRequest request, HttpServletResponse response, Object output)
   ```
   Pass the output object to the response and convert it into a Text message.
+  
+  ```sh
+  void toResponse(HttpServletRequest request, HttpServletResponse response, Object output, String mimetype)
+  ```
+  Pass the output object to the response and convert it into the specific mime type.
   
   ## Develop a Blocking app
   
