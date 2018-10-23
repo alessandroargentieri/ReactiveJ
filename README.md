@@ -24,7 +24,7 @@ In order to use ReactiveJ and create your first Non-Blocking (asynchronous and r
   
   - Or alternatively set the ReactiveJ dependency in your .gradle file if you're using Gradle:
   ```json
-  compile 'com.github.alessandroargentieri:ReactiveJ:1.0.0'
+  compile 'com.github.alessandroargentieri:ReactiveJ:1.0.3'
   ```
 
   - start using the imported dependencies designing your Endpoints extending the **Endpoints** abstract class:
