@@ -1,3 +1,5 @@
+<a href="url"><img src="https://github.com/alessandroargentieri/ReactiveJ/blob/master/ReactiveJLogo.png" align="left" height="148" width="200" ></a>
+
 # ReactiveJ
 
 ReactiveJ is a very lightweight library to build Java reactive microservices
