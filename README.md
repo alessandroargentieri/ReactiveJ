@@ -1,4 +1,4 @@
-<a href="url"><img src="https://github.com/alessandroargentieri/ReactiveJ/blob/master/ReactiveJLogo.png" align="left" height="148" width="200" ></a>
+<img src="https://github.com/alessandroargentieri/ReactiveJ/blob/master/logoReactiveJ.png" align="left" height="148" width="200" >
 
 # ReactiveJ
 
