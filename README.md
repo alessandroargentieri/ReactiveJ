@@ -1,3 +1,5 @@
+<img src="https://github.com/alessandroargentieri/ReactiveJ/blob/master/logoReactiveJ.png" align="left" height="148" width="200" >
+
 # ReactiveJ
 
 ReactiveJ is a very lightweight library to build Java reactive microservices
@@ -18,13 +20,13 @@ In order to use ReactiveJ and create your first Non-Blocking (asynchronous and r
   <dependency>
     <groupId>com.github.alessandroargentieri</groupId>
     <artifactId>ReactiveJ</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.3</version>
   </dependency>
   ```
   
   - Or alternatively set the ReactiveJ dependency in your .gradle file if you're using Gradle:
   ```json
-  compile 'com.github.alessandroargentieri:ReactiveJ:1.0.0'
+  compile 'com.github.alessandroargentieri:ReactiveJ:1.0.3'
   ```
 
   - start using the imported dependencies designing your Endpoints extending the **Endpoints** abstract class:
@@ -39,7 +41,10 @@ In order to use ReactiveJ and create your first Non-Blocking (asynchronous and r
   ```java
   package com.mypackage.example;
   
+  /** This class is going to implement all the CRUD operations regarding an hypothetical Pojo named ToDo **/
   public class ToDoEndpoints extends Endpoints {
+  
+    /* @Api annotation is optional and is meant to add more readability to your code */
     
     @Api(path = "/create/todo", method = "POST", consumes = "application/json", produces = "application/json", description = "")
     private final Action createToDo = (HttpServletRequest request, HttpServletResponse response) -> {
@@ -61,6 +66,7 @@ In order to use ReactiveJ and create your first Non-Blocking (asynchronous and r
       //implement logic here
     };
     
+    /* associate each action to its endpoint in the constructor */
     public ToDoEndpoints(){
        setEndpoint("/create/todo", createToDo);
        setEndpoint("/delete/todo/{id}", deleteToDo);
@@ -78,7 +84,7 @@ In order to use ReactiveJ and create your first Non-Blocking (asynchronous and r
   public class MainApplication {
 
     public static void main(String[] args) throws Exception {
-        new ReactiveJ().port(8081)                      //custom is 8080
+        new ReactiveJ().port(8081)                         //default port is 8080
                        .endpoints(new ToDoEndpoints())
                        .start();
     }
@@ -119,6 +125,11 @@ In order to use ReactiveJ and create your first Non-Blocking (asynchronous and r
   void toTextResponse(HttpServletRequest request, HttpServletResponse response, Object output)
   ```
   Pass the output object to the response and convert it into a Text message.
+  
+  ```sh
+  void toResponse(HttpServletRequest request, HttpServletResponse response, Object output, String mimetype)
+  ```
+  Pass the output object to the response and convert it into the specific mime type.
   
   ## Develop a Blocking app
   
@@ -278,4 +289,85 @@ In order to use ReactiveJ and create your first Non-Blocking (asynchronous and r
   ````
  
  Now we have a full reactive web application, because either the server, either the logic is non-blocking.
+ 
+ ## Add Custom Servlets and Filters
+ 
+ If you want to customize your application and add Servlets and Filters, you can define them into your packages and add them to your ReactiveJ instance. For example:
+ 
+ - let's define a Filter
+ 
+ ```java
+ package com.mypackage.custom;
+
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+public class CustomFilter implements Filter{
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        System.out.println("Filter: init");
+    }
+
+    @Override
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
+
+        HttpServletRequest request   = (HttpServletRequest) req;
+        HttpServletResponse response = (HttpServletResponse) res;
+
+        String requestUri = request.getRequestURI();
+        System.out.println("doFilter: " + requestUri);
+
+        chain.doFilter(request, response);
+
+    }
+
+    @Override
+    public void destroy() {
+        System.out.println("Filter: destroy");
+    }
+}
+ ```
+ 
+ - let's define a servlet
+ 
+ ```java
+ package com.mypackage.custom;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+public class CustomServlet extends HttpServlet {
+
+    @Override
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        response.getWriter().println("Example of custom servlet");
+    }
+}
+ ```
+ 
+ - now let's add to our ReactiveJ application
+ ```java
+  package com.mypackage.example;
+  
+  import com.mypackage.custom.*;
+  import com.mawashi.nio.ReactiveJ;
+  
+  public class MainApplication {
+
+    public static void main(String[] args) throws Exception {
+        new ReactiveJ().port(8081)                         //default port is 8080
+                       .endpoints(new ToDoEndpoints())
+                       .addServlet(CustomServlet.class, "/custom/servlet")
+                       .addFilter(CustomFilter.class, "/*", Jetty.Dispatch.DEFAULT)
+                       .start();
+    }
+  }
+ ```
+ Adding the Filter we must specify (otherwise it gets the default value) the dispatch integer value for the Filter, specified in the Jetty Documentation: https://www.eclipse.org/jetty/javadoc/current/org/eclipse/jetty/servlet/FilterMapping.html
  
