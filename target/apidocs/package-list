@@ -1,4 +1,4 @@
-com.mawashi.nio.annotations
-com.mawashi.nio.jetty
-com.mawashi.nio.servlets
-com.mawashi.nio.utils
+reactivej.mawashi.nio.annotations
+reactivej.mawashi.nio.jetty
+reactivej.mawashi.nio.servlets
+reactivej.mawashi.nio.utils
